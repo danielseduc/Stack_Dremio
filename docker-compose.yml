@@ -1,0 +1,22 @@
+version: '3'
+services:
+  dremio:
+    image: dremio/dremio-oss:latest
+    container_name: dremio
+    ports:
+      - 9047:9047 # Dremio Coordinator port
+      - 31010:31010 # Dremio Executor port
+      - 45678:45678 # Dremio Web UI port
+    environment:
+      - DREMIO_MAX_MEMORY_SIZE_MB=4096 # Maximum heap memory size for Dremio (adjust as needed)
+      - DREMIO_HEAP_MEMORY_SIZE_MB=2048 # Initial heap memory size for Dremio (adjust as needed)
+      - DREMIO_JAVA_EXTRA_OPTS="-XX:+UseG1GC" # Additional JVM options (optional)
+    volumes:
+      - dremio_data:/opt/dremio/data
+      - dremio_local:/opt/dremio/local
+      - dremio_log:/opt/dremio/log
+
+volumes:
+  dremio_data:
+  dremio_local:
+  dremio_log:
